@@ -1,15 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta name="theme-color" content="#020617">
+    <meta name="description" content="Muhammad Ibrahim Musa — Backend Engineer and Solution Architect. Building reliable systems, APIs, and practical digital solutions.">
     <title>Muhammad Ibrahim Musa | Backend Developer</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -33,109 +32,52 @@
                     }
                 }
             }
-        }
+        };
     </script>
 
-    <!-- Google Fonts -->
+    <!-- Fonts and icon/animation libraries -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Animate.css (Required by WOW.js) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-
-    <!-- WOW.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" defer></script>
 
     <style>
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 80px;
-        }
+        :root { color-scheme: dark; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .code-font { font-family: 'Fira Code', monospace; }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6366f1; }
 
-        .code-font {
-            font-family: 'Fira Code', monospace;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #020617;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #6366f1;
-        }
-
-        /* Scroll Progress */
         #scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            width: 0%;
+            position: fixed; top: 0; left: 0; height: 3px; width: 0%;
             background: linear-gradient(90deg, #6366f1, #a5b4fc);
-            z-index: 100;
+            z-index: 100; pointer-events: none;
         }
 
-        /* Parallax Background */
-        .parallax-section {
-            position: relative;
-            overflow: hidden;
-            isolation: isolate;
-        }
-
+        .parallax-section { position: relative; overflow: hidden; isolation: isolate; }
         .parallax-layer {
-            position: absolute;
-            inset: -15%;
-            pointer-events: none;
-            z-index: -1;
-            will-change: transform;
+            position: absolute; inset: -15%; pointer-events: none;
+            z-index: -1; will-change: transform;
         }
-
+        .glow-one, .glow-two {
+            filter: blur(100px); border-radius: 50%; position: absolute;
+        }
         .glow-one {
-            width: 400px;
-            height: 400px;
-            background: rgba(99, 102, 241, 0.13);
-            filter: blur(100px);
-            border-radius: 50%;
-            position: absolute;
-            top: 10%;
-            left: 10%;
+            width: 400px; height: 400px; background: rgba(99,102,241,.13);
+            top: 10%; left: 10%;
         }
-
         .glow-two {
-            width: 350px;
-            height: 350px;
-            background: rgba(79, 70, 229, 0.12);
-            filter: blur(100px);
-            border-radius: 50%;
-            position: absolute;
-            right: 5%;
-            bottom: 5%;
+            width: 350px; height: 350px; background: rgba(79,70,229,.12);
+            right: 5%; bottom: 5%;
         }
-
         .grid-background {
-            position: absolute;
-            inset: 0;
-            opacity: 0.08;
+            position: absolute; inset: 0; opacity: .08;
             background-image:
                 linear-gradient(rgba(148,163,184,.3) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(148,163,184,.3) 1px, transparent 1px);
@@ -143,244 +85,286 @@
             mask-image: linear-gradient(to bottom, black, transparent);
         }
 
-        /* Floating animation */
-        .floating {
-            animation: floating 6s ease-in-out infinite;
+        /* Three.js canvas sits behind the hero content. */
+        #three-hero {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none; opacity: .9;
         }
+        #three-hero canvas { display: block; width: 100%; height: 100%; }
+        .hero-content { position: relative; z-index: 2; }
 
+        .floating { animation: floating 6s ease-in-out infinite; }
         @keyframes floating {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-18px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-18px); }
         }
-
-        /* Project cards */
-        .project-card {
-            transition: all .4s ease;
-        }
-
+        .project-card { transition: transform .4s ease, border-color .4s ease, box-shadow .4s ease; }
         .project-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(99,102,241,.6);
+            transform: translateY(-10px); border-color: rgba(99,102,241,.6);
             box-shadow: 0 20px 50px rgba(0,0,0,.3);
         }
-
-        /* Gradient text */
         .gradient-text {
             background: linear-gradient(90deg, #818cf8, #c4b5fd);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
         }
-
-        /* Buttons */
-        .primary-btn {
-            transition: all .3s ease;
-        }
-
-        .primary-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(99,102,241,.25);
-        }
-
-        /* Modal */
-        .modal-overlay {
-            transition: opacity .3s ease;
-        }
-
-        /* Back to top */
+        .primary-btn { transition: all .3s ease; }
+        .primary-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(99,102,241,.25); }
+        .modal-overlay { transition: opacity .3s ease; }
         #back-to-top {
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(15px);
+            opacity: 0; visibility: hidden; transform: translateY(15px);
             transition: all .3s ease;
         }
+        #back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
 
-        #back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
+        @media (max-width: 640px) {
+            #three-hero { opacity: .55; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .floating { animation: none; }
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+            }
+        }
+        /* =========================================
+        GLASSMORPHISM PROJECT CARDS
+        ========================================= */
+
+        .project-glass-card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            border-radius: 18px;
+            background: rgba(15, 23, 42, 0.48);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
+            transition:
+                transform 0.45s ease,
+                border-color 0.45s ease,
+                box-shadow 0.45s ease,
+                background 0.45s ease;
         }
 
-        /* Reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-            html {
-                scroll-behavior: auto;
-            }
+        .project-glass-card:hover {
+            transform: translateY(-9px);
+            border-color: rgba(99, 102, 241, 0.5);
+            background: rgba(30, 41, 59, 0.58);
+            box-shadow: 0 20px 55px rgba(79, 70, 229, 0.13);
+        }
 
-            .floating {
-                animation: none;
-            }
+        /* Project image */
+        .project-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 230px;
+            overflow: hidden;
+            background: #0f172a;
+        }
 
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .project-glass-card:hover .project-image {
+            transform: scale(1.07);
+        }
+
+        /* Image gradient overlay */
+        .project-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(2, 6, 23, 0.85),
+                rgba(2, 6, 23, 0.08) 75%
+            );
+            pointer-events: none;
+        }
+
+        /* Project category */
+        .project-category {
+            position: absolute;
+            bottom: 17px;
+            left: 18px;
+            z-index: 2;
+            padding: 8px 13px;
+            border: 1px solid rgba(165, 180, 252, 0.25);
+            border-radius: 7px;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #c7d2fe;
+            font-family: 'Fira Code', monospace;
+            font-size: 11px;
+            letter-spacing: 0.3px;
+        }
+
+        /* Technology tags */
+        .project-tech {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 11px;
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            border-radius: 6px;
+            background: rgba(51, 65, 85, 0.42);
+            color: #cbd5e1;
+            font-family: 'Fira Code', monospace;
+            font-size: 11px;
+            transition: all 0.3s ease;
+        }
+
+        .project-glass-card:hover .project-tech {
+            border-color: rgba(99, 102, 241, 0.3);
+            background: rgba(79, 70, 229, 0.12);
+        }
+
+        /* Mobile image adjustment */
+        @media (max-width: 640px) {
+            .project-image-wrapper {
+                height: 210px;
             }
         }
     </style>
 </head>
 
 <body class="bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
-
-    <!-- Scroll Progress -->
     <div id="scroll-progress"></div>
 
-    <!-- ================= NAVIGATION ================= -->
-
+    <!-- NAVIGATION -->
     <header class="sticky top-0 z-40 w-full backdrop-blur-xl bg-slate-950/85 border-b border-slate-800/80">
-
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-
-            <a href="#hero" class="text-xl font-bold tracking-tight text-white">
+            <a href="#hero" class="text-xl font-bold tracking-tight text-white" aria-label="Baba Kurama home">
                 Baba Kurama<span class="text-indigo-500">.</span>
             </a>
 
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300" aria-label="Main navigation">
                 <a href="#hero" class="hover:text-indigo-400 transition">Home</a>
                 <a href="#projects" class="hover:text-indigo-400 transition">Projects</a>
-                <a href="#contact" class="px-4 py-2 rounded-lg bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 hover:bg-indigo-600 hover:text-white transition">
-                    Get in Touch
-                </a>
+                <a href="#contact" class="px-4 py-2 rounded-lg bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 hover:bg-indigo-600 hover:text-white transition">Get in Touch</a>
             </nav>
 
-            <button id="mobile-menu-btn"
-                aria-label="Toggle navigation"
-                aria-expanded="false"
+            <button id="mobile-menu-btn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-menu"
                 class="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
-
-                <i id="menu-icon" class="fa-solid fa-bars text-xl"></i>
+                <i id="menu-icon" class="fa-solid fa-bars text-xl" aria-hidden="true"></i>
             </button>
-
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu"
-            class="hidden md:hidden bg-slate-900 border-b border-slate-800 px-6 py-5 space-y-4">
-
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 px-6 py-5 space-y-4">
             <a href="#hero" class="block text-slate-300 hover:text-indigo-400">Home</a>
             <a href="#projects" class="block text-slate-300 hover:text-indigo-400">Projects</a>
             <a href="#contact" class="block text-indigo-400">Get in Touch</a>
-
         </div>
-
     </header>
 
     <main>
-
-        <!-- ================= HERO SECTION ================= -->
-
+        <!-- HERO -->
         <section id="hero" class="parallax-section relative min-h-[650px] flex items-center py-24 md:py-32">
+            <div id="three-hero" aria-hidden="true"></div>
 
-            <div class="parallax-layer" data-speed="0.18">
+            <div class="parallax-layer" data-speed="0.12">
                 <div class="glow-one"></div>
                 <div class="glow-two"></div>
                 <div class="grid-background"></div>
             </div>
 
-            <!-- Decorative Floating Elements -->
-            <div class="absolute top-32 right-[12%] text-indigo-500/20 text-7xl floating hidden md:block pointer-events-none">
+            <div class="absolute top-32 right-[12%] text-indigo-500/20 text-7xl floating hidden md:block pointer-events-none z-10" aria-hidden="true">
                 <i class="fa-solid fa-code"></i>
             </div>
-
-            <div class="absolute bottom-20 right-[25%] text-indigo-400/10 text-6xl floating hidden md:block pointer-events-none" style="animation-delay:2s">
+            <div class="absolute bottom-20 right-[25%] text-indigo-400/10 text-6xl floating hidden md:block pointer-events-none z-10" style="animation-delay:2s" aria-hidden="true">
                 <i class="fa-solid fa-database"></i>
             </div>
 
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full hero-content">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-10 items-center">
+                    <!-- INTRODUCTION -->
+                    <div class="max-w-3xl">
+                        <h1 class="wow animate__animated animate__fadeInUp text-4xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight leading-tight mb-6" data-wow-delay="0.1s">
+                            I'm <span class="gradient-text">Muhammad.</span>
+                        </h1>
 
-                <div class="max-w-3xl">
+                        <h2 class="wow animate__animated animate__fadeInUp text-xl sm:text-3xl font-semibold text-slate-300 mb-7" data-wow-delay="0.2s">
+                            Backend Engineer &amp; Solution Architect
+                        </h2>
 
-                    <h1 class="wow animate__animated animate__fadeInUp text-4xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight leading-tight mb-6"
-                        data-wow-delay="0.1s">
-
-                        Muhammad<br>
-                        Ibrahim <span class="gradient-text">Musa.</span>
-
-                    </h1>
-
-                    <h2 class="wow animate__animated animate__fadeInUp text-xl sm:text-3xl font-semibold text-slate-400 mb-7"
-                        data-wow-delay="0.2s">
-
-                        Backend Engineer & Solution Architect
-
-                    </h2>
-
-                    <p class="wow animate__animated animate__fadeInUp text-base sm:text-lg text-slate-300 leading-relaxed mb-10 max-w-2xl"
-                        data-wow-delay="0.3s">
-
-                        I build reliable systems and practical digital solutions that make everyday tasks easier. I enjoy understanding problems, finding better ways to solve them, and creating simple, secure, and effective solutions that help people and businesses work smarter.
-
-                    </p>
-                        <div class="wow animate__animated animate__fadeInUp flex flex-wrap items-center gap-4"
-                            data-wow-delay="0.4s">
-
-                            <!-- View Projects -->
-                            <a href="#projects"
-                                class="group px-6 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium shadow-lg shadow-indigo-600/20 flex items-center gap-3 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-600/30">
-
-                                View Projects
-                                <i class="fa-solid fa-arrow-down text-xs transition-transform duration-300 group-hover:translate-y-1"></i>
-
-                            </a>
-
-                            <!-- Download CV -->
-                            <a href="Baba-Kurama-CV.pdf" download
-                                class="group px-6 py-3 rounded-lg bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 hover:border-indigo-500 hover:text-white font-medium flex items-center gap-3 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg">
-
-                                Download CV
-                                <i class="fa-solid fa-download text-xs transition-transform duration-300 group-hover:translate-y-1"></i>
-
-                            </a>
-
-                            <!-- Contact Me -->
-                            <a href="#contact"
-                                class="group px-6 py-3 rounded-lg bg-transparent border border-slate-700 text-slate-300 hover:bg-slate-800 hover:border-indigo-500 hover:text-white font-medium flex items-center gap-3 transition-all duration-300 ease-out hover:-translate-y-1">
-
-                                Contact Me
-                                <i class="fa-solid fa-arrow-right text-xs transition-transform duration-300 group-hover:translate-x-1"></i>
-
-                            </a>
-
-                        </div>
-                    <!-- Technology Stack -->
-                    <div class="wow animate__animated animate__fadeInUp mt-14 pt-8 border-t border-slate-800/80"
-                        data-wow-delay="0.5s">
-
-                        <p class="text-xs text-slate-500 uppercase tracking-widest mb-5 font-mono">
-                            Core Technologies
+                        <p class="wow animate__animated animate__fadeInUp text-base sm:text-lg text-slate-300 leading-relaxed mb-10 max-w-2xl" data-wow-delay="0.3s">
+                            I build reliable systems and practical digital solutions that make everyday tasks easier. I enjoy understanding problems, finding better ways to solve them, and creating simple, secure, and effective solutions that help people and businesses work smarter.
                         </p>
 
-                        <div class="flex flex-wrap gap-7 text-slate-400 text-sm">
-
-                            <span><i class="fa-brands fa-php text-indigo-400 mr-2"></i> PHP</span>
-                            <span><i class="fa-solid fa-database text-indigo-400 mr-2"></i> MySQL</span>
-                            <span><i class="fa-brands fa-git-alt text-indigo-400 mr-2"></i> Git</span>
-                            <span><i class="fa-solid fa-code text-indigo-400 mr-2"></i> REST APIs</span>
-
+                        <div class="wow animate__animated animate__fadeInUp flex flex-wrap items-center gap-4" data-wow-delay="0.4s">
+                            <a href="#projects" class="group px-6 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium shadow-lg shadow-indigo-600/20 flex items-center gap-3 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-600/30">
+                                View Projects <i class="fa-solid fa-arrow-down text-xs transition-transform duration-300 group-hover:translate-y-1" aria-hidden="true"></i>
+                            </a>
+                            <a href="Baba-Kurama-CV.pdf" download class="group px-6 py-3 rounded-lg bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 hover:border-indigo-500 hover:text-white font-medium flex items-center gap-3 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg">
+                                Download CV <i class="fa-solid fa-download text-xs transition-transform duration-300 group-hover:translate-y-1" aria-hidden="true"></i>
+                            </a>
+                            <a href="#contact" class="group px-6 py-3 rounded-lg bg-transparent border border-slate-700 text-slate-300 hover:bg-slate-800 hover:border-indigo-500 hover:text-white font-medium flex items-center gap-3 transition-all duration-300 ease-out hover:-translate-y-1">
+                                Contact Me <i class="fa-solid fa-arrow-right text-xs transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true"></i>
+                            </a>
                         </div>
 
+                        <div class="wow animate__animated animate__fadeInUp mt-14 pt-8 border-t border-slate-800/80" data-wow-delay="0.5s">
+                            <p class="text-xs text-slate-500 uppercase tracking-widest mb-5 font-mono">Core Technologies</p>
+                            <div class="flex flex-wrap gap-7 text-slate-400 text-sm">
+                                <span><i class="fa-brands fa-php text-indigo-400 mr-2" aria-hidden="true"></i>PHP</span>
+                                <span><i class="fa-solid fa-database text-indigo-400 mr-2" aria-hidden="true"></i>MySQL</span>
+                                <span><i class="fa-brands fa-git-alt text-indigo-400 mr-2" aria-hidden="true"></i>Git</span>
+                                <span><i class="fa-solid fa-code text-indigo-400 mr-2" aria-hidden="true"></i>REST APIs</span>
+                            </div>
+                        </div>
                     </div>
 
+                    <!-- PROFILE IMAGE -->
+                    <div class="wow animate__animated animate__fadeInRight relative flex justify-center lg:justify-end items-center py-8 lg:py-0" data-wow-delay="0.3s">
+                        <div class="absolute w-72 h-96 sm:w-96 sm:h-[500px] bg-indigo-600/20 blur-[110px] rounded-full" aria-hidden="true"></div>
+                        <div class="absolute top-5 right-5 sm:right-10 w-[270px] h-[360px] sm:w-[370px] sm:h-[490px] border border-indigo-500/30 rounded-2xl rotate-3" aria-hidden="true"></div>
+
+                        <div class="relative z-10 w-[270px] h-[360px] sm:w-[370px] sm:h-[490px] rounded-2xl overflow-hidden border border-slate-700 bg-slate-900 shadow-2xl shadow-indigo-950/50 transition-all duration-500 hover:-translate-y-2 hover:border-indigo-500/60">
+                            <img src="assets/images/kurama.jfif" alt="Portrait of Muhammad Ibrahim Musa" class="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/10"></div>
+
+                            <div class="absolute top-5 left-5 flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-950/75 backdrop-blur-md border border-white/10">
+                                <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                                <span class="text-xs text-slate-200"></span>
+                            </div>
+
+                            <div class="absolute bottom-0 left-0 w-full p-6 sm:p-7">
+                                <div class="w-10 h-1 bg-indigo-500 rounded-full mb-4"></div>
+                                <p class="text-white text-xl sm:text-2xl font-bold tracking-tight">Muhammad Ibrahim Musa</p>
+                                <p class="text-indigo-300 text-sm mt-2 font-mono">Backend Engineer &amp; Solution Architect</p>
+                            </div>
+                        </div>
+
+                        <div class="absolute -left-2 sm:-left-5 top-20 z-20 hidden sm:flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900/95 backdrop-blur-md border border-slate-700 shadow-xl floating">
+                            <div class="w-10 h-10 rounded-lg bg-indigo-500/15 flex items-center justify-center text-indigo-400">
+                                <i class="fa-solid fa-code text-lg" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <p class="text-white text-xs font-semibold">Clean Code</p>
+                                <p class="text-slate-500 text-[10px]">Built with purpose</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-
         </section>
 
+        <!-- PROJECTS -->
+        <section id="projects" class="parallax-section relative py-24 overflow-hidden">
 
-        <!-- ================= PROJECTS SECTION ================= -->
-
-        <section id="projects" class="parallax-section relative py-24">
-
-            <div class="parallax-layer" data-speed="0.08">
+            <div class="parallax-layer" data-speed="0.06">
                 <div class="glow-one" style="left:-15%;top:30%"></div>
+                <div class="glow-two" style="right:-10%;bottom:5%"></div>
             </div>
 
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
+                <!-- SECTION HEADER -->
                 <div class="wow animate__animated animate__fadeInUp mb-14 flex flex-col md:flex-row md:items-end justify-between gap-5">
 
                     <div>
@@ -394,856 +378,603 @@
                     </div>
 
                     <p class="text-slate-400 text-sm max-w-md leading-relaxed">
-                        Clean, effective backend solutions built with strict architectural
-                        standards, database efficiency, and scalable application logic.
+                        Clean, effective backend solutions built with architectural
+                        discipline, database efficiency, and scalable application logic.
                     </p>
 
                 </div>
 
+                <!-- PROJECT GRID -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
 
                     <!-- PROJECT 1 -->
+                    <article class="wow animate__animated animate__fadeInUp project-glass-card group"
+                        data-wow-delay="0.1s">
 
-                    <div class="wow animate__animated animate__fadeInUp project-card bg-slate-900 rounded-xl border border-slate-800 overflow-hidden flex flex-col justify-between">
+                        <div class="project-image-wrapper">
+
+                            <img
+                                src="assets/images/projects/academic-management.jpg"
+                                alt="Academic Management Backend project preview"
+                                class="project-image"
+                                loading="lazy"
+                            >
+
+                            <div class="project-image-overlay"></div>
+
+                            <span class="project-category">
+                                <i class="fa-solid fa-graduation-cap mr-2"></i>
+                                System Engine
+                            </span>
+
+                        </div>
 
                         <div class="p-6">
 
-                            <div class="flex items-center justify-between mb-6">
-
-                                <span class="text-xs code-font text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1.5 rounded">
-                                    System Engine
-                                </span>
-
-                                <i class="fa-solid fa-graduation-cap text-slate-500 text-xl"></i>
-
-                            </div>
-
-                            <h4 class="text-xl font-bold text-white mb-4">
+                            <h4 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors duration-300">
                                 Academic Management Backend
                             </h4>
 
                             <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                                Scalable academic record management platform built with
-                                OOP PHP and MySQL. Handles multi-tier student records,
-                                grading calculations, and RBAC authentication.
+                                Academic record management platform built with OOP PHP
+                                and MySQL. Designed to handle student records, grading
+                                workflows, and role-based access.
                             </p>
 
-                            <div class="flex flex-wrap gap-2 mb-7">
-
-                                <span class="text-xs font-mono bg-slate-800 text-slate-300 px-3 py-1.5 rounded">PHP 8</span>
-                                <span class="text-xs font-mono bg-slate-800 text-slate-300 px-3 py-1.5 rounded">MySQL PDO</span>
-                                <span class="text-xs font-mono bg-slate-800 text-slate-300 px-3 py-1.5 rounded">RBAC</span>
-
+                            <div class="flex flex-wrap gap-2">
+                                <span class="project-tech">PHP 8</span>
+                                <span class="project-tech">MySQL PDO</span>
+                                <span class="project-tech">RBAC</span>
                             </div>
 
                         </div>
-
-                        <div class="px-6 pb-6">
-
-                            <button onclick="openModal('academicModal')"
-                                class="w-full py-3 px-4 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-200 text-sm font-medium transition flex items-center justify-center gap-2">
-
-                                View Architecture Details
-                                <i class="fa-solid fa-circle-info text-xs"></i>
-
-                            </button>
-
-                        </div>
-
-                    </div>
+                    </article>
 
 
                     <!-- PROJECT 2 -->
+                    <article class="wow animate__animated animate__fadeInUp project-glass-card group"
+                        data-wow-delay="0.2s">
 
-                    <div class="wow animate__animated animate__fadeInUp project-card bg-slate-900 rounded-xl border border-slate-800 overflow-hidden flex flex-col justify-between"
-                        data-wow-delay="0.15s">
+                        <div class="project-image-wrapper">
+
+                            <img
+                                src="assets/images/projects/api-infrastructure.jpg"
+                                alt="Secure API and Data Layer project preview"
+                                class="project-image"
+                                loading="lazy"
+                            >
+
+                            <div class="project-image-overlay"></div>
+
+                            <span class="project-category">
+                                <i class="fa-solid fa-network-wired mr-2"></i>
+                                API Infrastructure
+                            </span>
+
+                        </div>
 
                         <div class="p-6">
 
-                            <div class="flex items-center justify-between mb-6">
-
-                                <span class="text-xs code-font text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1.5 rounded">
-                                    API Infrastructure
-                                </span>
-
-                                <i class="fa-solid fa-network-wired text-slate-500 text-xl"></i>
-
-                            </div>
-
-                            <h4 class="text-xl font-bold text-white mb-4">
-                                Secure API & Data Layer
+                            <h4 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors duration-300">
+                                Secure API &amp; Data Layer
                             </h4>
 
                             <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                                Lightweight, secure REST API engine designed for
-                                mobile and web consumption. Features JWT token
-                                validation, rate limiting, and parameter sanitization.
+                                Lightweight REST API service designed for web and
+                                mobile applications, with token validation, request
+                                validation, and safer database access.
                             </p>
 
-                            <div class="flex flex-wrap gap-2 mb-7">
-
-                                <span class="text-xs font-mono bg-slate-800 text-slate-300 px-3 py-1.5 rounded">REST API</span>
-                                <span class="text-xs font-mono bg-slate-800 text-slate-300 px-3 py-1.5 rounded">PDO Layer</span>
-                                <span class="text-xs font-mono bg-slate-800 text-slate-300 px-3 py-1.5 rounded">JSON</span>
-
+                            <div class="flex flex-wrap gap-2">
+                                <span class="project-tech">REST API</span>
+                                <span class="project-tech">PDO Layer</span>
+                                <span class="project-tech">JSON</span>
                             </div>
 
                         </div>
-
-                        <div class="px-6 pb-6">
-
-                            <button onclick="openModal('apiModal')"
-                                class="w-full py-3 px-4 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-200 text-sm font-medium transition flex items-center justify-center gap-2">
-
-                                View Architecture Details
-                                <i class="fa-solid fa-circle-info text-xs"></i>
-
-                            </button>
-
-                        </div>
-
-                    </div>
+                    </article>
 
 
                     <!-- PROJECT 3 -->
-
-                    <div class="wow animate__animated animate__fadeInUp project-card bg-slate-900 rounded-xl border border-slate-800 overflow-hidden flex flex-col justify-between"
+                    <article class="wow animate__animated animate__fadeInUp project-glass-card group"
                         data-wow-delay="0.3s">
+
+                        <div class="project-image-wrapper">
+
+                            <img
+                                src="assets/images/projects/cms-engine.jpg"
+                                alt="Custom Modular CMS Engine project preview"
+                                class="project-image"
+                                loading="lazy"
+                            >
+
+                            <div class="project-image-overlay"></div>
+
+                            <span class="project-category">
+                                <i class="fa-solid fa-gears mr-2"></i>
+                                Custom CMS Core
+                            </span>
+
+                        </div>
 
                         <div class="p-6">
 
-                            <div class="flex items-center justify-between mb-6">
-
-                                <span class="text-xs code-font text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1.5 rounded">
-                                    Custom CMS Core
-                                </span>
-
-                                <i class="fa-solid fa-gears text-slate-500 text-xl"></i>
-
-                            </div>
-
-                            <h4 class="text-xl font-bold text-white mb-4">
+                            <h4 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors duration-300">
                                 Custom Modular CMS Engine
                             </h4>
 
                             <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                                A high-performance content management engine built
-                                without third-party bloated frameworks. Implements
-                                custom routing, SQL query wrappers, and dynamic schema building.
+                                Modular content management engine using custom routing,
+                                reusable data-access logic, and a structured separation
+                                of application components.
                             </p>
 
-                            <div class="flex flex-wrap gap-2 mb-7">
-
-                                <span class="text-xs font-mono bg-slate-800 text-slate-300 px-3 py-1.5 rounded">Pure PHP</span>
-                                <span class="text-xs font-mono bg-slate-800 text-slate-300 px-3 py-1.5 rounded">MySQL Schema</span>
-                                <span class="text-xs font-mono bg-slate-800 text-slate-300 px-3 py-1.5 rounded">MVC</span>
-
+                            <div class="flex flex-wrap gap-2">
+                                <span class="project-tech">Pure PHP</span>
+                                <span class="project-tech">MySQL</span>
+                                <span class="project-tech">MVC</span>
                             </div>
 
                         </div>
-
-                        <div class="px-6 pb-6">
-
-                            <button onclick="openModal('cmsModal')"
-                                class="w-full py-3 px-4 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-200 text-sm font-medium transition flex items-center justify-center gap-2">
-
-                                View Architecture Details
-                                <i class="fa-solid fa-circle-info text-xs"></i>
-
-                            </button>
-
-                        </div>
-
-                    </div>
+                    </article>
 
                 </div>
-
             </div>
-
         </section>
 
-
-        <!-- ================= CONTACT SECTION ================= -->
-
+        <!-- CONTACT -->
         <section id="contact" class="parallax-section relative py-24 bg-slate-900/40 border-t border-slate-800">
-
-            <div class="parallax-layer" data-speed="0.1">
-                <div class="glow-two"></div>
-            </div>
+            <div class="parallax-layer" data-speed="0.08"><div class="glow-two"></div></div>
 
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-
-                    <!-- Contact Information -->
-
                     <div class="wow animate__animated animate__fadeInLeft">
-
-                        <h2 class="text-xs font-mono uppercase tracking-widest text-indigo-400 mb-3">
-                            Communication
-                        </h2>
-
+                        <h2 class="text-xs font-mono uppercase tracking-widest text-indigo-400 mb-3">Communication</h2>
                         <h3 class="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
                             Let's build something <span class="gradient-text">efficient together.</span>
                         </h3>
-
                         <p class="text-slate-400 leading-relaxed mb-10">
-                            Whether you need database optimization, a customized
-                            backend architecture, or clean PHP API development,
-                            feel free to reach out.
+                            Whether you need database design, backend architecture, API development, or help turning an idea into a working system, feel free to reach out.
                         </p>
-
-                        <!-- Email -->
 
                         <div class="p-6 rounded-xl bg-slate-900 border border-slate-800 mb-8">
-
-                            <span class="text-xs text-slate-400 block mb-3 font-mono">
-                                DIRECT EMAIL ADDRESS
-                            </span>
-
+                            <span class="text-xs text-slate-400 block mb-3 font-mono">DIRECT EMAIL ADDRESS</span>
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-950 p-3 rounded-lg border border-slate-800">
-
-                                <span id="email-address" class="code-font text-indigo-300 text-sm font-medium break-all">
-                                    muhammadibrahimmusa.dev@gmail.com
-                                </span>
-
-                                <button onclick="copyEmail()"
-                                    class="px-4 py-2 bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white border border-indigo-500/30 rounded text-xs font-medium transition flex items-center justify-center gap-2 shrink-0">
-
-                                    <i id="copy-icon" class="fa-regular fa-copy"></i>
+                                <span id="email-address" class="code-font text-indigo-300 text-sm font-medium break-all">muhammadibrahimmusa.dev@gmail.com</span>
+                                <button type="button" onclick="copyEmail()" class="px-4 py-2 bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white border border-indigo-500/30 rounded text-xs font-medium transition flex items-center justify-center gap-2 shrink-0">
+                                    <i id="copy-icon" class="fa-regular fa-copy" aria-hidden="true"></i>
                                     <span id="copy-text">Copy Address</span>
-
                                 </button>
-
                             </div>
-
                         </div>
-
-                        <!-- Social Links -->
 
                         <div class="flex items-center gap-4">
-
-                            <a href="https://github.com/ibrahari2019-max" target="_blank" rel="noopener noreferrer"
-                                aria-label="GitHub"
-                                class="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-indigo-500 transition">
-
-                                <i class="fa-brands fa-github text-xl"></i>
-
+                            <a href="https://github.com/ibrahari2019-max" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-indigo-500 transition">
+                                <i class="fa-brands fa-github text-xl" aria-hidden="true"></i>
                             </a>
-
-                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
-                                aria-label="LinkedIn"
-                                class="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-indigo-500 transition">
-
-                                <i class="fa-brands fa-linkedin-in text-xl"></i>
-
+                            <a href="https://www.linkedin.com/in/muhammad-ibrahim-musa-37538b447/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-indigo-500 transition">
+                                <i class="fa-brands fa-linkedin-in text-xl" aria-hidden="true"></i>
                             </a>
-
-                            <a href="mailto:muhammadibrahimmusa.dev@gmail.com"
-                                aria-label="Email"
-                                class="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-indigo-500 transition">
-
-                                <i class="fa-regular fa-envelope text-xl"></i>
-
+                            <a href="mailto:muhammadibrahimmusa.dev@gmail.com" aria-label="Email" class="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-indigo-500 transition">
+                                <i class="fa-regular fa-envelope text-xl" aria-hidden="true"></i>
                             </a>
-
                         </div>
-
                     </div>
-
-
-                    <!-- Contact Form -->
 
                     <div class="wow animate__animated animate__fadeInRight bg-slate-900 p-7 sm:p-9 rounded-xl border border-slate-800">
-
-                        <h4 class="text-xl font-semibold text-white mb-2">
-                            Send a Message
-                        </h4>
-
-                        <p class="text-sm text-slate-500 mb-7">
-                            Tell me about your project or technical requirements.
-                        </p>
+                        <h4 class="text-xl font-semibold text-white mb-2">Send a Message</h4>
+                        <p class="text-sm text-slate-500 mb-7">Tell me about your project or technical requirements.</p>
 
                         <form id="contact-form" class="space-y-5">
-
                             <div>
-                                <label for="user-name" class="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-2">
-                                    Your Name
-                                </label>
-
-                                <input type="text" id="user-name" required
-                                    placeholder="John Doe"
-                                    class="w-full px-4 py-3 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition text-sm">
+                                <label for="user-name" class="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-2">Your Name</label>
+                                <input type="text" id="user-name" name="name" required autocomplete="name" placeholder="John Doe" class="w-full px-4 py-3 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition text-sm">
                             </div>
-
                             <div>
-                                <label for="user-email" class="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-2">
-                                    Your Email
-                                </label>
-
-                                <input type="email" id="user-email" required
-                                    placeholder="john@example.com"
-                                    class="w-full px-4 py-3 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition text-sm">
+                                <label for="user-email" class="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-2">Your Email</label>
+                                <input type="email" id="user-email" name="email" required autocomplete="email" placeholder="john@example.com" class="w-full px-4 py-3 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition text-sm">
                             </div>
-
                             <div>
-                                <label for="user-message" class="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-2">
-                                    Project Brief / Message
-                                </label>
-
-                                <textarea id="user-message" rows="5" required
-                                    placeholder="Briefly describe your backend requirement..."
-                                    class="w-full px-4 py-3 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition text-sm resize-none"></textarea>
+                                <label for="user-message" class="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-2">Project Brief / Message</label>
+                                <textarea id="user-message" name="message" rows="5" required placeholder="Briefly describe your backend requirement..." class="w-full px-4 py-3 rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition text-sm resize-none"></textarea>
                             </div>
-
-                            <button type="submit"
-                                class="primary-btn w-full py-3.5 px-6 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition flex items-center justify-center gap-3">
-
-                                Send Message
-                                <i class="fa-solid fa-paper-plane text-xs"></i>
-
+                            <button type="submit" class="primary-btn w-full py-3.5 px-6 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition flex items-center justify-center gap-3">
+                                Send Message <i class="fa-solid fa-paper-plane text-xs" aria-hidden="true"></i>
                             </button>
-
                         </form>
 
-                        <p id="form-notification" role="status" aria-live="polite"
-                            class="hidden mt-4 p-3 rounded-lg bg-indigo-950/80 border border-indigo-500/40 text-indigo-200 text-xs text-center">
-
+                        <p id="form-notification" role="status" aria-live="polite" class="hidden mt-4 p-3 rounded-lg bg-indigo-950/80 border border-indigo-500/40 text-indigo-200 text-xs text-center">
                             Your email application is opening with your message.
-
                         </p>
-
                     </div>
-
                 </div>
-
             </div>
-
         </section>
-
     </main>
 
-
-    <!-- ================= FOOTER ================= -->
-
+    <!-- FOOTER -->
     <footer class="py-8 border-t border-slate-900 bg-slate-950">
-
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-
-            <p>
-                &copy; <span id="year"></span> Muhammad Ibrahim Musa. All rights reserved.
-            </p>
-
-            <p class="code-font">
-                Designed & Crafted for Backend Excellence
-            </p>
-
+            <p>&copy; <span id="year"></span> Muhammad Ibrahim Musa. All rights reserved.</p>
+            <p class="code-font">Designed &amp; Crafted for Backend Excellence</p>
         </div>
-
     </footer>
 
-
-    <!-- ================= PROJECT MODALS ================= -->
-
-    <!-- Academic Modal -->
-
-    <div id="academicModal" class="modal-overlay fixed inset-0 z-50 hidden bg-slate-950/90 backdrop-blur-md items-center justify-center p-4">
-
+    <!-- PROJECT MODALS -->
+    <div id="academicModal" class="modal-overlay fixed inset-0 z-50 hidden bg-slate-950/90 backdrop-blur-md items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="academic-title">
         <div class="bg-slate-900 border border-slate-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-7 relative shadow-2xl animate__animated animate__fadeInUp">
-
-            <button onclick="closeModal('academicModal')"
-                aria-label="Close modal"
-                class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
-
-                <i class="fa-solid fa-xmark text-lg"></i>
-
-            </button>
-
-            <div class="flex items-center gap-2 text-indigo-400 text-xs font-mono mb-3">
-                <i class="fa-solid fa-database"></i>
-                DATABASE & LOGIC ARCHITECTURE
-            </div>
-
-            <h3 class="text-2xl font-bold text-white mb-5">
-                Academic System Management Backend
-            </h3>
-
-            <p class="text-sm text-slate-300 leading-relaxed mb-6">
-                This backend system is architected to handle complex academic
-                relationships involving Students, Courses, Enrolments, Grades,
-                and Instructors.
-            </p>
-
+            <button type="button" onclick="closeModal('academicModal')" aria-label="Close modal" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div class="flex items-center gap-2 text-indigo-400 text-xs font-mono mb-3"><i class="fa-solid fa-database"></i> DATABASE &amp; LOGIC ARCHITECTURE</div>
+            <h3 id="academic-title" class="text-2xl font-bold text-white mb-5">Academic System Management Backend</h3>
+            <p class="text-sm text-slate-300 leading-relaxed mb-6">This backend system is structured to manage academic relationships involving students, courses, enrolments, grades, and instructors.</p>
             <div class="bg-slate-950 p-5 rounded-lg border border-slate-800">
-
-                <h5 class="text-white font-semibold text-xs uppercase tracking-wider mb-4">
-                    Key Technical Features
-                </h5>
-
+                <h5 class="text-white font-semibold text-xs uppercase tracking-wider mb-4">Key Technical Features</h5>
                 <ul class="space-y-3 text-slate-400 text-sm">
-
-                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i> Normalized relational database schema (3NF).</li>
-
-                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i> PHP PDO transactions for consistent data updates.</li>
-
-                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i> Role-Based Access Control for Admin, Teacher, and Student permissions.</li>
-
-                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i> BCrypt password hashing and secure session management.</li>
-
+                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i>Normalized relational database schema.</li>
+                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i>PHP PDO transactions for consistent data updates.</li>
+                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i>Role-based permissions for administrators, teachers, and students.</li>
+                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i>Password hashing and secure session management.</li>
                 </ul>
-
             </div>
-
-            <div class="mt-7 flex justify-end">
-                <button onclick="closeModal('academicModal')"
-                    class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg">
-                    Close Overview
-                </button>
-            </div>
-
+            <div class="mt-7 flex justify-end"><button type="button" onclick="closeModal('academicModal')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg">Close Overview</button></div>
         </div>
-
     </div>
 
-
-    <!-- API Modal -->
-
-    <div id="apiModal" class="modal-overlay fixed inset-0 z-50 hidden bg-slate-950/90 backdrop-blur-md items-center justify-center p-4">
-
+    <div id="apiModal" class="modal-overlay fixed inset-0 z-50 hidden bg-slate-950/90 backdrop-blur-md items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="api-title">
         <div class="bg-slate-900 border border-slate-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-7 relative shadow-2xl animate__animated animate__fadeInUp">
-
-            <button onclick="closeModal('apiModal')"
-                aria-label="Close modal"
-                class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
-
-                <i class="fa-solid fa-xmark text-lg"></i>
-
-            </button>
-
-            <div class="flex items-center gap-2 text-indigo-400 text-xs font-mono mb-3">
-                <i class="fa-solid fa-code"></i>
-                REST & DATA TRANSFER LAYER
-            </div>
-
-            <h3 class="text-2xl font-bold text-white mb-5">
-                Secure API & PDO Data Layer
-            </h3>
-
-            <p class="text-sm text-slate-300 leading-relaxed mb-6">
-                A lightweight RESTful service created to provide standardized
-                endpoints for external applications with high efficiency.
-            </p>
-
+            <button type="button" onclick="closeModal('apiModal')" aria-label="Close modal" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div class="flex items-center gap-2 text-indigo-400 text-xs font-mono mb-3"><i class="fa-solid fa-code"></i> REST &amp; DATA TRANSFER LAYER</div>
+            <h3 id="api-title" class="text-2xl font-bold text-white mb-5">Secure API &amp; PDO Data Layer</h3>
+            <p class="text-sm text-slate-300 leading-relaxed mb-6">A lightweight RESTful service designed to provide consistent endpoints for external applications.</p>
             <div class="bg-slate-950 p-5 rounded-lg border border-slate-800">
-
-                <h5 class="text-white font-semibold text-xs uppercase tracking-wider mb-4">
-                    Key Technical Features
-                </h5>
-
+                <h5 class="text-white font-semibold text-xs uppercase tracking-wider mb-4">Key Technical Features</h5>
                 <ul class="space-y-3 text-slate-400 text-sm">
-
-                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i> Strict JSON request parsing and standardized API responses.</li>
-
-                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i> Centralized PDO abstraction layer.</li>
-
-                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i> Prepared statements protecting against SQL injection.</li>
-
-                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i> HTTP status handling including 200, 400, 401, and 500.</li>
-
+                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i>Structured JSON request parsing and API responses.</li>
+                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i>Centralized PDO data-access layer.</li>
+                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i>Prepared statements to help prevent SQL injection.</li>
+                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i>Consistent HTTP status-code handling.</li>
                 </ul>
-
             </div>
-
-            <div class="mt-7 flex justify-end">
-                <button onclick="closeModal('apiModal')"
-                    class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg">
-                    Close Overview
-                </button>
-            </div>
-
+            <div class="mt-7 flex justify-end"><button type="button" onclick="closeModal('apiModal')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg">Close Overview</button></div>
         </div>
-
     </div>
 
-
-    <!-- CMS Modal -->
-
-    <div id="cmsModal" class="modal-overlay fixed inset-0 z-50 hidden bg-slate-950/90 backdrop-blur-md items-center justify-center p-4">
-
+    <div id="cmsModal" class="modal-overlay fixed inset-0 z-50 hidden bg-slate-950/90 backdrop-blur-md items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="cms-title">
         <div class="bg-slate-900 border border-slate-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-7 relative shadow-2xl animate__animated animate__fadeInUp">
-
-            <button onclick="closeModal('cmsModal')"
-                aria-label="Close modal"
-                class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
-
-                <i class="fa-solid fa-xmark text-lg"></i>
-
-            </button>
-
-            <div class="flex items-center gap-2 text-indigo-400 text-xs font-mono mb-3">
-                <i class="fa-solid fa-gears"></i>
-                CONTENT ARCHITECTURE
-            </div>
-
-            <h3 class="text-2xl font-bold text-white mb-5">
-                Custom Modular CMS Engine
-            </h3>
-
-            <p class="text-sm text-slate-300 leading-relaxed mb-6">
-                Built from the ground up to avoid heavy reliance on external
-                frameworks, ensuring efficient performance and custom functionality.
-            </p>
-
+            <button type="button" onclick="closeModal('cmsModal')" aria-label="Close modal" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div class="flex items-center gap-2 text-indigo-400 text-xs font-mono mb-3"><i class="fa-solid fa-gears"></i> CONTENT ARCHITECTURE</div>
+            <h3 id="cms-title" class="text-2xl font-bold text-white mb-5">Custom Modular CMS Engine</h3>
+            <p class="text-sm text-slate-300 leading-relaxed mb-6">A modular content management engine designed around custom routing, reusable components, and a clear separation of application logic.</p>
             <div class="bg-slate-950 p-5 rounded-lg border border-slate-800">
-
-                <h5 class="text-white font-semibold text-xs uppercase tracking-wider mb-4">
-                    Key Technical Features
-                </h5>
-
+                <h5 class="text-white font-semibold text-xs uppercase tracking-wider mb-4">Key Technical Features</h5>
                 <ul class="space-y-3 text-slate-400 text-sm">
-
-                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i> Custom URL router and clean endpoint management.</li>
-
-                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i> Modular template system separating frontend and backend logic.</li>
-
-                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i> Optimized MySQL query handling.</li>
-
-                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i> File upload validation and MIME type filtering.</li>
-
+                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i>Custom URL routing and endpoint management.</li>
+                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i>Modular template system separating presentation and backend logic.</li>
+                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i>Structured MySQL query handling.</li>
+                    <li><i class="fa-solid fa-check text-indigo-400 mr-2"></i>File-upload validation and MIME-type checks.</li>
                 </ul>
-
             </div>
-
-            <div class="mt-7 flex justify-end">
-                <button onclick="closeModal('cmsModal')"
-                    class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg">
-                    Close Overview
-                </button>
-            </div>
-
+            <div class="mt-7 flex justify-end"><button type="button" onclick="closeModal('cmsModal')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg">Close Overview</button></div>
         </div>
-
     </div>
 
-
-    <!-- ================= BACK TO TOP ================= -->
-
-    <button id="back-to-top"
-        onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-        aria-label="Back to top"
+    <!-- BACK TO TOP -->
+    <button id="back-to-top" type="button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Back to top"
         class="fixed bottom-7 right-7 z-40 w-12 h-12 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/20 flex items-center justify-center">
-
-        <i class="fa-solid fa-arrow-up"></i>
-
+        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
     </button>
 
+    <!-- THREE.JS BACKGROUND: particle field and connecting lines -->
+    <script type="module">
+        import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
-    <!-- ================= JAVASCRIPT ================= -->
+        const host = document.getElementById('three-hero');
+        const hero = document.getElementById('hero');
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    <script>
+        if (host && hero && !reduceMotion) {
+            let renderer, scene, camera, points, lines, animationFrame;
+            let resizeObserver;
+            const pointer = new THREE.Vector2(0, 0);
+            const clock = new THREE.Clock();
+            const particleCount = window.innerWidth < 768 ? 65 : 115;
+            const positions = new Float32Array(particleCount * 3);
+            const velocities = [];
 
-        // Initialize WOW.js
-        new WOW({
-            boxClass: 'wow',
-            animateClass: 'animate__animated',
-            offset: 80,
-            mobile: true,
-            live: true
-        }).init();
-
-
-        // Current Year
-        document.getElementById('year').textContent =
-            new Date().getFullYear();
-
-
-        // Mobile Navigation
-        const mobileMenuBtn =
-            document.getElementById('mobile-menu-btn');
-
-        const mobileMenu =
-            document.getElementById('mobile-menu');
-
-        const menuIcon =
-            document.getElementById('menu-icon');
-
-        mobileMenuBtn.addEventListener('click', () => {
-
-            const isOpen =
-                !mobileMenu.classList.contains('hidden');
-
-            mobileMenu.classList.toggle('hidden');
-
-            mobileMenuBtn.setAttribute(
-                'aria-expanded',
-                String(!isOpen)
-            );
-
-            menuIcon.className = isOpen
-                ? 'fa-solid fa-bars text-xl'
-                : 'fa-solid fa-xmark text-xl';
-
-        });
-
-
-        // Close Mobile Menu on Navigation
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-
-            link.addEventListener('click', () => {
-
-                mobileMenu.classList.add('hidden');
-
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
-
-                menuIcon.className = 'fa-solid fa-bars text-xl';
-
-            });
-
-        });
-
-
-        // Copy Email
-        async function copyEmail() {
-
-            const email =
-                document.getElementById('email-address').innerText;
-
-            const icon =
-                document.getElementById('copy-icon');
-
-            const text =
-                document.getElementById('copy-text');
+            for (let i = 0; i < particleCount; i++) {
+                positions[i * 3] = (Math.random() - 0.5) * 19;
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 10;
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 5;
+                velocities.push({
+                    x: (Math.random() - 0.5) * 0.0025,
+                    y: (Math.random() - 0.5) * 0.0025,
+                    z: (Math.random() - 0.5) * 0.001
+                });
+            }
 
             try {
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
+                camera.position.z = 11;
 
-                if (navigator.clipboard && window.isSecureContext) {
+                renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.7));
+                renderer.setSize(host.clientWidth, host.clientHeight);
+                renderer.setClearColor(0x020617, 0);
+                host.appendChild(renderer.domElement);
 
-                    await navigator.clipboard.writeText(email);
+                const pointGeometry = new THREE.BufferGeometry();
+                pointGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                const pointMaterial = new THREE.PointsMaterial({
+                    color: 0x818cf8, size: 0.045, transparent: true,
+                    opacity: 0.8, blending: THREE.AdditiveBlending,
+                    depthWrite: false, sizeAttenuation: true
+                });
+                points = new THREE.Points(pointGeometry, pointMaterial);
+                scene.add(points);
 
-                } else {
+                const lineGeometry = new THREE.BufferGeometry();
+                const linePositions = new Float32Array(particleCount * particleCount * 6);
+                lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+                lineGeometry.setDrawRange(0, 0);
+                const lineMaterial = new THREE.LineBasicMaterial({
+                    color: 0x6366f1, transparent: true, opacity: 0.17,
+                    blending: THREE.AdditiveBlending, depthWrite: false
+                });
+                lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+                scene.add(lines);
 
-                    const textarea =
-                        document.createElement('textarea');
-
-                    textarea.value = email;
-                    textarea.style.position = 'fixed';
-                    textarea.style.opacity = '0';
-
-                    document.body.appendChild(textarea);
-
-                    textarea.select();
-
-                    const copied =
-                        document.execCommand('copy');
-
-                    textarea.remove();
-
-                    if (!copied) {
-                        throw new Error('Copy failed');
-                    }
-
+                function resize() {
+                    const width = Math.max(host.clientWidth, 1);
+                    const height = Math.max(host.clientHeight, 1);
+                    camera.aspect = width / height;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(width, height);
                 }
 
-                icon.className =
-                    'fa-solid fa-check text-green-400';
+                resizeObserver = new ResizeObserver(resize);
+                resizeObserver.observe(host);
 
-                text.innerText = 'Copied!';
+                hero.addEventListener('pointermove', (event) => {
+                    const rect = hero.getBoundingClientRect();
+                    pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+                    pointer.y = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
+                }, { passive: true });
 
-                setTimeout(() => {
+                hero.addEventListener('pointerleave', () => pointer.set(0, 0), { passive: true });
 
-                    icon.className = 'fa-regular fa-copy';
-                    text.innerText = 'Copy Address';
+                function animate() {
+                    animationFrame = requestAnimationFrame(animate);
+                    const elapsed = clock.getElapsedTime();
+                    const pos = pointGeometry.attributes.position.array;
+                    let vertexCount = 0;
+                    const maxDistance = window.innerWidth < 768 ? 1.25 : 1.55;
 
-                }, 2500);
+                    for (let i = 0; i < particleCount; i++) {
+                        const index = i * 3;
+                        pos[index] += velocities[i].x;
+                        pos[index + 1] += velocities[i].y;
+                        pos[index + 2] += velocities[i].z;
 
-            } catch (error) {
+                        if (pos[index] > 10) pos[index] = -10;
+                        if (pos[index] < -10) pos[index] = 10;
+                        if (pos[index + 1] > 6) pos[index + 1] = -6;
+                        if (pos[index + 1] < -6) pos[index + 1] = 6;
+                        if (pos[index + 2] > 3) pos[index + 2] = -3;
+                        if (pos[index + 2] < -3) pos[index + 2] = 3;
 
-                text.innerText = 'Copy failed';
+                        // Subtle pointer attraction without moving the camera abruptly.
+                        pos[index] += pointer.x * 0.0008;
+                        pos[index + 1] += pointer.y * 0.0008;
+                    }
+                    pointGeometry.attributes.position.needsUpdate = true;
 
-                setTimeout(() => {
-                    text.innerText = 'Copy Address';
-                }, 2500);
-
-            }
-
-        }
-
-
-        // Contact Form
-        // Uses the visitor's default email application.
-        document.getElementById('contact-form')
-            .addEventListener('submit', function(event) {
-
-                event.preventDefault();
-
-                const name =
-                    document.getElementById('user-name').value.trim();
-
-                const email =
-                    document.getElementById('user-email').value.trim();
-
-                const message =
-                    document.getElementById('user-message').value.trim();
-
-                const subject = encodeURIComponent(
-                    'Portfolio Enquiry from ' + name
-                );
-
-                const body = encodeURIComponent(
-                    'Name: ' + name +
-                    '\nEmail: ' + email +
-                    '\n\nProject Brief:\n' + message
-                );
-
-                const notification =
-                    document.getElementById('form-notification');
-
-                notification.classList.remove('hidden');
-
-                const mailto =
-                    'mailto:muhammadibrahimmusa.dev@gmail.com' +
-                    '?subject=' + subject +
-                    '&body=' + body;
-
-                window.location.href = mailto;
-
-            });
-
-
-        // Project Modals
-        function openModal(modalId) {
-
-            const modal = document.getElementById(modalId);
-
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-
-            document.body.style.overflow = 'hidden';
-
-        }
-
-
-        function closeModal(modalId) {
-
-            const modal = document.getElementById(modalId);
-
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-
-            document.body.style.overflow = '';
-
-        }
-
-
-        // Close Modal When Clicking Outside
-        document.querySelectorAll('.modal-overlay').forEach(modal => {
-
-            modal.addEventListener('click', function(event) {
-
-                if (event.target === modal) {
-
-                    closeModal(modal.id);
-
-                }
-
-            });
-
-        });
-
-
-        // Close Modal With Escape Key
-        document.addEventListener('keydown', function(event) {
-
-            if (event.key === 'Escape') {
-
-                document.querySelectorAll('.modal-overlay').forEach(modal => {
-
-                    if (!modal.classList.contains('hidden')) {
-                        closeModal(modal.id);
+                    for (let i = 0; i < particleCount; i++) {
+                        for (let j = i + 1; j < particleCount; j++) {
+                            const a = i * 3, b = j * 3;
+                            const dx = pos[a] - pos[b];
+                            const dy = pos[a + 1] - pos[b + 1];
+                            const dz = pos[a + 2] - pos[b + 2];
+                            if (dx * dx + dy * dy + dz * dz < maxDistance * maxDistance) {
+                                linePositions[vertexCount++] = pos[a];
+                                linePositions[vertexCount++] = pos[a + 1];
+                                linePositions[vertexCount++] = pos[a + 2];
+                                linePositions[vertexCount++] = pos[b];
+                                linePositions[vertexCount++] = pos[b + 1];
+                                linePositions[vertexCount++] = pos[b + 2];
+                            }
+                        }
                     }
 
+                    lineGeometry.attributes.position.needsUpdate = true;
+                    lineGeometry.setDrawRange(0, vertexCount / 3);
+                    points.rotation.y = Math.sin(elapsed * 0.12) * 0.035;
+                    points.rotation.x = Math.cos(elapsed * 0.1) * 0.025;
+                    lines.rotation.copy(points.rotation);
+                    renderer.render(scene, camera);
+                }
+
+                animate();
+
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        cancelAnimationFrame(animationFrame);
+                    } else {
+                        cancelAnimationFrame(animationFrame);
+                        animate();
+                    }
                 });
 
+                window.addEventListener('beforeunload', () => {
+                    cancelAnimationFrame(animationFrame);
+                    resizeObserver?.disconnect();
+                    pointGeometry.dispose();
+                    pointMaterial.dispose();
+                    lineGeometry.dispose();
+                    lineMaterial.dispose();
+                    renderer.dispose();
+                }, { once: true });
+            } catch (error) {
+                console.warn('Three.js background could not be initialized:', error);
+                host.style.display = 'none';
             }
-
-        });
-
-
-        // Scroll Effects
-        const progressBar =
-            document.getElementById('scroll-progress');
-
-        const backToTop =
-            document.getElementById('back-to-top');
-
-        let scrollTicking = false;
-
-        function updateScrollEffects() {
-
-            const scrollTop =
-                window.scrollY;
-
-            const scrollHeight =
-                document.documentElement.scrollHeight -
-                window.innerHeight;
-
-            const progress =
-                scrollHeight > 0
-                    ? (scrollTop / scrollHeight) * 100
-                    : 0;
-
-            progressBar.style.width = progress + '%';
-
-            if (scrollTop > 400) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
-
-            // Parallax layers
-            document.querySelectorAll('.parallax-layer').forEach(layer => {
-
-                const speed =
-                    parseFloat(layer.dataset.speed || 0.1);
-
-                const section =
-                    layer.closest('.parallax-section');
-
-                const rect =
-                    section.getBoundingClientRect();
-
-                const movement =
-                    (window.innerHeight - rect.top) * speed;
-
-                layer.style.transform =
-                    `translate3d(0, ${movement}px, 0)`;
-
-            });
-
-            scrollTicking = false;
-
         }
-
-
-        window.addEventListener('scroll', () => {
-
-            if (!scrollTicking) {
-
-                window.requestAnimationFrame(updateScrollEffects);
-
-                scrollTicking = true;
-
-            }
-
-        }, { passive: true });
-
-
-        window.addEventListener('resize', updateScrollEffects);
-
-        updateScrollEffects();
-
-
     </script>
 
+    <!-- SITE INTERACTIONS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Reveal-on-scroll animations
+            if (window.WOW) {
+                new WOW({
+                    boxClass: 'wow',
+                    animateClass: 'animate__animated',
+                    offset: 80,
+                    mobile: true,
+                    live: true
+                }).init();
+            }
+
+            // Current year
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // Mobile navigation
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+
+            function closeMobileMenu() {
+                mobileMenu.classList.add('hidden');
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                menuIcon.className = 'fa-solid fa-bars text-xl';
+            }
+
+            mobileMenuBtn.addEventListener('click', () => {
+                const opening = mobileMenu.classList.contains('hidden');
+                mobileMenu.classList.toggle('hidden');
+                mobileMenuBtn.setAttribute('aria-expanded', String(opening));
+                menuIcon.className = opening ? 'fa-solid fa-xmark text-xl' : 'fa-solid fa-bars text-xl';
+            });
+
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            // Scroll progress and back-to-top
+            const progressBar = document.getElementById('scroll-progress');
+            const backToTop = document.getElementById('back-to-top');
+            let scrollTicking = false;
+
+            function updateScrollEffects() {
+                const scrollTop = window.scrollY;
+                const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+                progressBar.style.width = `${progress}%`;
+                backToTop.classList.toggle('visible', scrollTop > 400);
+
+                if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    document.querySelectorAll('.parallax-layer').forEach(layer => {
+                        const speed = Number.parseFloat(layer.dataset.speed || '0.08');
+                        const section = layer.closest('.parallax-section');
+                        if (!section) return;
+                        const rect = section.getBoundingClientRect();
+                        const movement = (window.innerHeight - rect.top) * speed;
+                        layer.style.transform = `translate3d(0, ${movement}px, 0)`;
+                    });
+                }
+                scrollTicking = false;
+            }
+
+            window.addEventListener('scroll', () => {
+                if (!scrollTicking) {
+                    window.requestAnimationFrame(updateScrollEffects);
+                    scrollTicking = true;
+                }
+            }, { passive: true });
+            window.addEventListener('resize', updateScrollEffects);
+            updateScrollEffects();
+
+            // Close modal when clicking the backdrop or pressing Escape.
+            document.querySelectorAll('.modal-overlay').forEach(modal => {
+                modal.addEventListener('click', event => {
+                    if (event.target === modal) closeModal(modal.id);
+                });
+            });
+
+            document.addEventListener('keydown', event => {
+                if (event.key === 'Escape') {
+                    document.querySelectorAll('.modal-overlay:not(.hidden)').forEach(modal => closeModal(modal.id));
+                }
+            });
+
+            // Contact form opens the visitor's default email application.
+            document.getElementById('contact-form').addEventListener('submit', event => {
+                event.preventDefault();
+
+                const name = document.getElementById('user-name').value.trim();
+                const email = document.getElementById('user-email').value.trim();
+                const message = document.getElementById('user-message').value.trim();
+
+                if (!name || !email || !message) return;
+
+                const subject = encodeURIComponent(`Portfolio Enquiry from ${name}`);
+                const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nProject Brief:\n${message}`);
+                const mailto = `mailto:muhammadibrahimmusa.dev@gmail.com?subject=${subject}&body=${body}`;
+
+                document.getElementById('form-notification').classList.remove('hidden');
+                window.location.href = mailto;
+            });
+        });
+
+        // Copy email address to clipboard.
+        async function copyEmail() {
+            const email = document.getElementById('email-address').textContent.trim();
+            const icon = document.getElementById('copy-icon');
+            const text = document.getElementById('copy-text');
+
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(email);
+                } else {
+                    const temporaryInput = document.createElement('textarea');
+                    temporaryInput.value = email;
+                    temporaryInput.style.position = 'fixed';
+                    temporaryInput.style.opacity = '0';
+                    document.body.appendChild(temporaryInput);
+                    temporaryInput.select();
+                    const copied = document.execCommand('copy');
+                    temporaryInput.remove();
+                    if (!copied) throw new Error('Clipboard copy failed');
+                }
+
+                icon.className = 'fa-solid fa-check text-green-400';
+                text.textContent = 'Copied!';
+            } catch (error) {
+                text.textContent = 'Copy failed';
+            }
+
+            window.setTimeout(() => {
+                icon.className = 'fa-regular fa-copy';
+                text.textContent = 'Copy Address';
+            }, 2500);
+        }
+
+        // Project modal helpers.
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+    </script>
 </body>
 </html>
